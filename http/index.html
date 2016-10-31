@@ -31,6 +31,7 @@
   <script>
   $( function() {
     var triggered = false;
+    var red=255, green=255, blue=255;
     function hexFromRGB(r, g, b) {
       var hex = [
         r.toString( 16 ),
@@ -45,19 +46,16 @@
       return hex.join( "" ).toUpperCase();
     }
     function refreshSwatch() {
-      var red = $( "#red" ).slider( "value" ),
-        green = $( "#green" ).slider( "value" ),
-        blue = $( "#blue" ).slider( "value" ),
-        hex = hexFromRGB( red, green, blue );
+      red = $( "#red" ).slider( "value" ),
+      green = $( "#green" ).slider( "value" ),
+      blue = $( "#blue" ).slider( "value" ),
+      hex = hexFromRGB( red, green, blue );
       $( "#swatch" ).css( "background-color", "#" + hex );
-
-      if(triggered) return;
-      triggered = true;
-      $.get("led.lua?r=" + red + "&g=" + green + "&b="+ blue);      
-      setTimeout(function(){        
-        triggered = false;
-      }, 500, 0);
     }
+
+      setInterval(function(){        
+          $.get("led.lua?r=" + red + "&g=" + green + "&b="+ blue);
+      }, 500, 0);
  
     $( "#red, #green, #blue" ).slider({
       orientation: "horizontal",
